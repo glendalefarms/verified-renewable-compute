@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verified Renewable Compute | GPU Hours. Secure Compute. Renewable Infrastructure.</title>
+<meta name="description" content="Flexible GPU compute capacity for AI, research, rendering and high-performance workloads. Secure, scalable and designed for renewable infrastructure.">
+<style>
+:root{
+  --bg:#030706;
+  --bg2:#07120e;
+  --panel:#0f241a;
+  --panel2:#143627;
+  --green:#9bef6c;
+  --mint:#66d8ac;
+  --text:#f5fff8;
+  --muted:#b8cabf;
+  --line:rgba(255,255,255,.14);
+  --cream:#f4f0df;
+  --ink:#101c16;
+  --amber:#ffd67a;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.55;
+}
+a{text-decoration:none;color:inherit}
+header{
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:rgba(3,7,6,.92);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+  padding:16px 20px;
+}
+.nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+  flex-wrap:wrap;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.logo{
+  width:48px;
+  height:48px;
+  border-radius:15px;
+  background:linear-gradient(135deg,var(--green),var(--mint));
+  display:grid;
+  place-items:center;
+  color:#06100b;
+  font-weight:950;
+  letter-spacing:-.05em;
+}
+.brand strong{display:block}
+.brand small{display:block;color:var(--muted);font-size:12px}
+.links{
+  display:flex;
+  gap:8px;
+  overflow:auto;
+  max-width:100%;
+}
+.links a{
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:9px 13px;
+  color:var(--muted);
+  font-weight:850;
+  white-space:nowrap;
+  font-size:14px;
+}
+.links a.cta{
+  background:var(--green);
+  color:#06100b;
+  border-color:transparent;
+}
+section{
+  padding:78px clamp(20px,5vw,86px);
+}
+.hero{
+  min-height:86vh;
+  display:grid;
+  grid-template-columns:1.15fr .85fr;
+  gap:48px;
+  align-items:center;
+  background:
+    radial-gradient(circle at 88% 10%,rgba(102,216,172,.30),transparent 330px),
+    radial-gradient(circle at 8% 25%,rgba(155,239,108,.18),transparent 300px),
+    linear-gradient(135deg,#030706 0%,#07120e 50%,#123524 100%);
+}
+.eyebrow{
+  color:var(--green);
+  text-transform:uppercase;
+  letter-spacing:.16em;
+  font-size:12px;
+  font-weight:950;
+  margin-bottom:12px;
+}
+h1,h2,h3{
+  line-height:1.04;
+  margin:0 0 18px;
+  letter-spacing:-.045em;
+}
+h1{font-size:clamp(3.1rem,8vw,7rem)}
+h2{font-size:clamp(2.15rem,5vw,4.15rem)}
+h3{font-size:1.35rem}
+.lead{
+  font-size:clamp(1.14rem,2.1vw,1.42rem);
+  color:var(--muted);
+  max-width:820px;
+}
+.actions{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-top:30px;
+}
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:999px;
+  padding:14px 19px;
+  background:var(--green);
+  color:#06100b;
+  font-weight:950;
+  border:1px solid transparent;
+}
+.btn.alt{
+  background:transparent;
+  color:var(--text);
+  border-color:var(--line);
+}
+.card,.panel{
+  background:rgba(255,255,255,.065);
+  border:1px solid var(--line);
+  border-radius:30px;
+  padding:25px;
+}
+.panel{
+  box-shadow:0 28px 90px rgba(0,0,0,.36);
+}
+.hero-stat{
+  padding:20px;
+  border-radius:24px;
+  background:linear-gradient(135deg,rgba(155,239,108,.18),rgba(102,216,172,.08));
+  border:1px solid rgba(155,239,108,.25);
+  margin-bottom:14px;
+}
+.hero-stat strong{
+  display:block;
+  font-size:2.35rem;
+  letter-spacing:-.06em;
+}
+.row{
+  display:flex;
+  justify-content:space-between;
+  gap:14px;
+  border-bottom:1px solid var(--line);
+  padding:13px 0;
+}
+.row:last-child{border-bottom:0}
+.row span,.card p,.card li{color:var(--muted)}
+.row b{text-align:right}
+.head{
+  max-width:980px;
+  margin-bottom:34px;
+}
+.head p{
+  color:var(--muted);
+  font-size:1.09rem;
+}
+.grid{
+  display:grid;
+  gap:18px;
+}
+.three{grid-template-columns:repeat(3,1fr)}
+.two{grid-template-columns:repeat(2,1fr)}
+.four{grid-template-columns:repeat(4,1fr)}
+.icon{
+  font-size:35px;
+  margin-bottom:12px;
+}
+.highlight{
+  background:linear-gradient(135deg,rgba(155,239,108,.18),rgba(255,255,255,.06));
+  border-color:rgba(155,239,108,.30);
+}
+.light{
+  background:var(--cream);
+  color:var(--ink);
+}
+.light .eyebrow{color:#247647}
+.light p,.light li{color:#43564b}
+.steps{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+.step{
+  background:rgba(255,255,255,.07);
+  border:1px solid var(--line);
+  border-radius:24px;
+  padding:24px;
+}
+.step b{
+  display:grid;
+  place-items:center;
+  width:42px;
+  height:42px;
+  border-radius:999px;
+  background:var(--green);
+  color:#06100b;
+  margin-bottom:14px;
+}
+.kpi{
+  padding:18px;
+  border-radius:22px;
+  background:rgba(255,255,255,.07);
+  border:1px solid var(--line);
+}
+.kpi b{
+  display:block;
+  color:var(--green);
+  font-size:1.75rem;
+}
+.warning{
+  border-left:4px solid var(--amber);
+  padding:14px 16px;
+  background:rgba(255,214,122,.10);
+  border-radius:12px;
+  color:#fff3c8;
+  margin-top:22px;
+}
+.flow{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:12px;
+}
+.flow .step{
+  padding:17px;
+  font-weight:900;
+}
+.flow .step small{
+  display:block;
+  color:var(--muted);
+  font-weight:500;
+  margin-top:8px;
+}
+.split{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px;
+  align-items:start;
+}
+.form{
+  background:white;
+  color:var(--ink);
+  border-radius:30px;
+  padding:25px;
+  box-shadow:0 18px 60px rgba(0,0,0,.18);
+}
+label{
+  display:block;
+  font-weight:850;
+  margin-bottom:14px;
+}
+input,select,textarea{
+  width:100%;
+  padding:14px;
+  border-radius:14px;
+  border:1px solid #d4ddd7;
+  margin-top:7px;
+  font:inherit;
+}
+textarea{min-height:112px}
+.notice{
+  padding:14px;
+  border-radius:16px;
+  background:#fff7d6;
+  color:#4e3a00;
+  border:1px solid #edd980;
+}
+footer{
+  padding:28px clamp(20px,5vw,86px);
+  border-top:1px solid var(--line);
+  color:var(--muted);
+  display:flex;
+  justify-content:space-between;
+  gap:18px;
+  flex-wrap:wrap;
+}
+@media(max-width:900px){
+  header{position:relative}
+  .hero,.three,.two,.four,.steps,.flow,.split{grid-template-columns:1fr}
+  section{padding:54px 20px}
+  .links{width:100%}
+}
+</style>
+</head>
+
+<body>
+<header>
+  <nav class="nav">
+    <a class="brand" href="#home">
+      <div class="logo">VRC</div>
+      <div>
+        <strong>Verified Renewable Compute</strong>
+        <small>GPU Hours • Secure Compute • Renewable Infrastructure</small>
+      </div>
+    </a>
+    <div class="links">
+      <a href="#services">Services</a>
+      <a href="#how">How it works</a>
+      <a href="#workloads">Workloads</a>
+      <a href="#network">Network</a>
+      <a class="cta" href="#contact">Request quote</a>
+    </div>
+  </nav>
+</header>
+
+<section id="home" class="hero">
+  <div>
+    <div class="eyebrow">Simple. Secure. Scalable.</div>
+    <h1>GPU Hours. Secure Compute. Renewable Infrastructure.</h1>
+    <p class="lead">
+      Flexible compute capacity for AI, research, rendering and high-performance workloads.
+      Tell us what you want to achieve, and we will help you find the right compute solution.
+    </p>
+    <div class="actions">
+      <a class="btn" href="#contact">Request a quote</a>
+      <a class="btn alt" href="#workloads">Explore workloads</a>
+    </div>
+  </div>
+
+  <aside class="panel">
+    <div class="hero-stat">
+      <span class="eyebrow">Core offer</span>
+      <strong>Compute capacity</strong>
+      <p style="color:var(--muted);margin:0">GPU rental as the backbone. Security and renewable infrastructure as the differentiators.</p>
+    </div>
+    <div class="row"><span>Product</span><b>GPU hours</b></div>
+    <div class="row"><span>Premium option</span><b>Secure compute</b></div>
+    <div class="row"><span>Infrastructure</span><b>Renewable-backed</b></div>
+    <div class="row"><span>Strategy</span><b>Demand first, hardware second</b></div>
+  </aside>
+</section>
+
+<section id="services">
+  <div class="head">
+    <div class="eyebrow">What we provide</div>
+    <h2>Three clear services.</h2>
+    <p>
+      The offer is deliberately simple: GPU hours when customers need power,
+      secure compute when data matters, and renewable-backed infrastructure where evidence and reporting are important.
+    </p>
+  </div>
+
+  <div class="grid three">
+    <div class="card">
+      <div class="icon">⚡</div>
+      <h3>GPU Hours</h3>
+      <p>Flexible GPU rental for compute-heavy workloads without buying, maintaining or upgrading your own hardware.</p>
+      <ul>
+        <li>Hourly or reserved capacity</li>
+        <li>Suitable for trials and production jobs</li>
+        <li>Scalable as demand grows</li>
+      </ul>
+    </div>
+
+    <div class="card highlight">
+      <div class="icon">🔒</div>
+      <h3>Secure Compute</h3>
+      <p>Controlled compute options for workloads involving confidential data, sensitive documents or private business information.</p>
+      <ul>
+        <li>Private options available</li>
+        <li>Designed for sensitive workloads</li>
+        <li>Clearer access and process control</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="icon">🌍</div>
+      <h3>Renewable Infrastructure</h3>
+      <p>Compute infrastructure designed to integrate with renewable generation, battery storage and transparent energy reporting.</p>
+      <ul>
+        <li>Renewable-backed strategy</li>
+        <li>Measured energy evidence where available</li>
+        <li>Built for future energy systems</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="how" class="light">
+  <div class="head">
+    <div class="eyebrow">How it works</div>
+    <h2>You do not need to understand GPUs.</h2>
+    <p>
+      Most customers do not want hardware jargon. They want to know whether their work can be completed securely,
+      quickly and at a sensible cost.
+    </p>
+  </div>
+
+  <div class="steps">
+    <div class="card" style="background:#fff;color:var(--ink)">
+      <b>1</b>
+      <h3>Tell us the project</h3>
+      <p>AI, rendering, research, engineering, data analysis or another compute-heavy workload.</p>
+    </div>
+    <div class="card" style="background:#fff;color:var(--ink)">
+      <b>2</b>
+      <h3>We recommend capacity</h3>
+      <p>Standard GPU hours, secure compute or renewable-backed infrastructure depending on the requirement.</p>
+    </div>
+    <div class="card" style="background:#fff;color:var(--ink)">
+      <b>3</b>
+      <h3>Get to work</h3>
+      <p>Use the agreed compute capacity, then scale up only when the workload and business case justify it.</p>
+    </div>
+  </div>
+</section>
+
+<section id="workloads">
+  <div class="head">
+    <div class="eyebrow">Example workloads</div>
+    <h2>Built for the next generation of digital workloads.</h2>
+    <p>
+      We are not tied to one AI platform or one technology trend.
+      The focus is infrastructure that supports compute-heavy work.
+    </p>
+  </div>
+
+  <div class="grid four">
+    <div class="card"><h3>🧠 AI & machine learning</h3><p>Training, testing, fine-tuning and running compute-heavy AI workloads.</p></div>
+    <div class="card"><h3>🎬 Rendering & media</h3><p>Video processing, 3D rendering, animation and creative production.</p></div>
+    <div class="card"><h3>🏗 Engineering</h3><p>Simulation, design optimisation, CAD rendering and digital twins.</p></div>
+    <div class="card"><h3>🔬 Research</h3><p>Temporary high-performance capacity for universities, research and data science.</p></div>
+    <div class="card"><h3>🤖 Robotics</h3><p>Vision models, object detection, navigation and automation testing.</p></div>
+    <div class="card"><h3>📊 Analytics</h3><p>Large data processing, forecasting and high-volume analysis.</p></div>
+    <div class="card"><h3>🔐 Sensitive workloads</h3><p>Private or controlled environments for commercially sensitive data.</p></div>
+    <div class="card"><h3>⚙ High-performance computing</h3><p>Compute capacity for demanding workloads that outgrow ordinary devices.</p></div>
+  </div>
+</section>
+
+<section id="network">
+  <div class="head">
+    <div class="eyebrow">Renewable compute network</div>
+    <h2>Demand first. Hardware second. Scale carefully.</h2>
+    <p>
+      The long-term opportunity is to connect compute demand with renewable generation,
+      battery storage and suitable host sites.
+    </p>
+  </div>
+
+  <div class="grid four">
+    <div class="kpi"><span>Power source</span><b>Solar</b><small>Daytime generation</small></div>
+    <div class="kpi"><span>Power source</span><b>Wind</b><small>Weather-led generation</small></div>
+    <div class="kpi"><span>Power source</span><b>AD</b><small>Potential base-load supply</small></div>
+    <div class="kpi"><span>Power source</span><b>Battery</b><small>Smoothing and storage</small></div>
+  </div>
+
+  <div class="warning">
+    <strong>Important:</strong> we should not claim “guaranteed 100% renewable” until metering,
+    audit method and third-party verification are in place. The public wording should be
+    “renewable-backed”, “measured”, “transparent” and “verified where available”.
+  </div>
+
+  <br>
+
+  <div class="flow">
+    <div class="step">1. Find demand<small>Real workloads and paying customers.</small></div>
+    <div class="step">2. Use initial capacity<small>Owned or approved hardware.</small></div>
+    <div class="step">3. Track usage<small>Hours, workload and margin.</small></div>
+    <div class="step">4. Add hosts<small>Renewable sites and GPU owners.</small></div>
+    <div class="step">5. Scale carefully<small>Buy hardware when utilisation supports it.</small></div>
+  </div>
+</section>
+
+<section id="contact" class="light">
+  <div class="head">
+    <div class="eyebrow">Request a quote</div>
+    <h2>Tell us what you need to run.</h2>
+    <p>
+      This is the first market test. The aim is to learn which workloads are real,
+      who needs capacity and how much security or renewable evidence matters.
+    </p>
+  </div>
+
+  <div class="split">
+    <div class="form">
+      <h3>Compute enquiry</h3>
+      <label>Name<input placeholder="Your name"></label>
+      <label>Email<input placeholder="you@example.com"></label>
+      <label>What do you need?
+        <select>
+          <option>GPU hours</option>
+          <option>Secure compute</option>
+          <option>Renewable-backed compute</option>
+          <option>High-performance workload advice</option>
+          <option>Hosting / infrastructure partnership</option>
+        </select>
+      </label>
+      <label>Estimated usage
+        <select>
+          <option>Not sure yet</option>
+          <option>A few hours</option>
+          <option>One day</option>
+          <option>Weekly usage</option>
+          <option>Monthly reserved capacity</option>
+        </select>
+      </label>
+      <label>Message<textarea placeholder="Tell us what you want to run, or what infrastructure you can provide..."></textarea></label>
+      <div class="notice">Prototype only — this would later send an enquiry to email or CRM.</div>
+    </div>
+
+    <div class="form">
+      <h3>What happens next?</h3>
+      <p>We review the workload, recommend the right compute approach and provide a quote.</p>
+      <ul>
+        <li>Standard GPU hours for flexible compute</li>
+        <li>Secure compute for sensitive workloads</li>
+        <li>Renewable-backed options where energy evidence matters</li>
+        <li>Partnership route for sites with power, hardware or infrastructure</li>
+      </ul>
+      <div class="notice">The first objective is to find real demand before buying unnecessary hardware.</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div><strong>Verified Renewable Compute</strong><br>GPU Hours • Secure Compute • Renewable Infrastructure</div>
+  <div>Version 3 landing page ready for GitHub Pages.</div>
+</footer>
+</body>
+</html>
