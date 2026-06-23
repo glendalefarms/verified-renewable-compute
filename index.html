@@ -1,0 +1,585 @@
+<!-- Verified Renewable Compute — clickable prototype -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verified Renewable Compute — Prototype</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+:root{
+  --ink:#0c1512;
+  --ink-2:#10201a;
+  --ink-3:#16281f;
+  --green:#3fae6f;
+  --green-bright:#69d196;
+  --green-deep:#1d3a2c;
+  --sage:#e7f1ea;
+  --sage-line:#cfe2d6;
+  --paper:#f5f8f6;
+  --card:#ffffff;
+  --text:#14201b;
+  --muted:#6c7d75;
+  --hairline:#e4ebe6;
+  --display:'Space Grotesk',ui-sans-serif,system-ui,sans-serif;
+  --body:'Inter',ui-sans-serif,system-ui,sans-serif;
+  --rail:74px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:var(--body);color:var(--text);background:var(--ink);-webkit-font-smoothing:antialiased;overflow:hidden}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+
+/* ---------- shell ---------- */
+.app{display:flex;height:100vh;width:100vw}
+.rail{width:var(--rail);flex:0 0 var(--rail);background:var(--ink);border-right:1px solid rgba(255,255,255,.06);display:flex;flex-direction:column;align-items:center;padding:18px 0;gap:6px;z-index:20}
+.brandmark{width:40px;height:40px;display:grid;place-items:center;margin-bottom:14px}
+.brandmark svg{width:34px;height:34px}
+.nav{display:flex;flex-direction:column;gap:2px;width:100%;align-items:center}
+.nav .seclabel{font-size:8.5px;letter-spacing:.14em;color:rgba(255,255,255,.32);text-transform:uppercase;margin:12px 0 4px;font-weight:600}
+.navbtn{width:48px;height:46px;border-radius:13px;display:grid;place-items:center;color:rgba(255,255,255,.55);position:relative;transition:.18s}
+.navbtn svg{width:21px;height:21px;stroke-width:1.7}
+.navbtn:hover{background:rgba(255,255,255,.06);color:#fff}
+.navbtn.active{background:var(--green-deep);color:var(--green-bright)}
+.navbtn .tip{position:absolute;left:58px;top:50%;transform:translateY(-50%);background:#000;color:#fff;font-size:11.5px;padding:5px 9px;border-radius:7px;white-space:nowrap;opacity:0;pointer-events:none;transition:.15s;z-index:40;font-weight:500}
+.navbtn:hover .tip{opacity:1}
+.railspacer{flex:1}
+
+/* ---------- stage ---------- */
+.stage{flex:1;position:relative;background:var(--paper);overflow:hidden}
+.view{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .28s ease;overflow:auto}
+.view.show{opacity:1;visibility:visible}
+.view::-webkit-scrollbar{width:9px}
+.view::-webkit-scrollbar-thumb{background:#d4ddd7;border-radius:8px}
+
+/* top utility bar inside light views */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 34px;position:sticky;top:0;background:rgba(245,248,246,.86);backdrop-filter:blur(8px);z-index:5}
+.eyebrow{font-family:var(--display);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--green);font-weight:600}
+.pill{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--muted);font-weight:500}
+.modeswitch{display:flex;background:#fff;border:1px solid var(--hairline);border-radius:999px;padding:3px;font-family:var(--body)}
+.modeswitch button{font-size:12.5px;font-weight:600;color:var(--muted);padding:6px 14px;border-radius:999px}
+.modeswitch button.on{background:var(--ink);color:#fff}
+
+/* ---------- landing ---------- */
+.landing{display:grid;grid-template-columns:1.05fr .95fr;height:100%}
+.scene{position:relative;padding:46px;display:flex;flex-direction:column;justify-content:space-between;color:#fff;
+  background:
+    linear-gradient(165deg,rgba(8,18,14,.78) 0%,rgba(10,26,19,.55) 45%,rgba(20,40,30,.28) 100%),
+    radial-gradient(120% 90% at 18% 10%,#1c3a2a 0%,#0c1c14 55%,#081310 100%);
+  overflow:hidden}
+.scene .turb{position:absolute;inset:0;opacity:.5;
+  background:
+    radial-gradient(closest-side at 80% 78%,rgba(170,205,150,.35),transparent 70%),
+    radial-gradient(closest-side at 60% 60%,rgba(120,160,120,.18),transparent 75%)}
+.scene .hills{position:absolute;left:0;right:0;bottom:0;height:42%;
+  background:linear-gradient(180deg,transparent,rgba(6,14,10,.55) 60%, rgba(5,12,9,.85));}
+.scene-top{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:2}
+.wordmark{display:flex;align-items:center;gap:11px}
+.wordmark .wm-h{font-family:var(--display);font-weight:700;letter-spacing:.18em;font-size:15px;line-height:1}
+.wordmark .wm-s{font-size:8.5px;letter-spacing:.26em;color:var(--green-bright);font-weight:600;margin-top:3px}
+.scene h1{position:relative;z-index:2;font-family:var(--display);font-weight:600;font-size:clamp(34px,4.4vw,56px);line-height:1.02;letter-spacing:-.02em;max-width:11ch}
+.scene h1 .g{color:var(--green-bright)}
+.lead{position:relative;z-index:2;color:rgba(255,255,255,.82);font-size:16px;line-height:1.55;max-width:34ch;margin-top:20px}
+.feat{position:relative;z-index:2;display:flex;flex-direction:column;gap:16px;margin-top:8px}
+.feat .row{display:flex;gap:13px;align-items:flex-start}
+.feat .ic{width:38px;height:38px;border-radius:11px;background:rgba(105,209,150,.13);border:1px solid rgba(105,209,150,.25);display:grid;place-items:center;color:var(--green-bright);flex:0 0 38px}
+.feat .ic svg{width:19px;height:19px}
+.feat b{font-size:14px;font-weight:600;color:#fff}
+.feat p{font-size:12.5px;color:rgba(255,255,255,.62);line-height:1.45;margin-top:1px}
+
+.loginpane{background:var(--paper);display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px}
+.logincard{background:var(--card);border:1px solid var(--hairline);border-radius:22px;padding:40px 38px;width:min(420px,100%);box-shadow:0 30px 60px -34px rgba(20,40,30,.35)}
+.logincard h2{font-family:var(--display);font-weight:600;font-size:25px;text-align:center;line-height:1.2}
+.logincard .sub{text-align:center;color:var(--muted);font-size:13.5px;margin:10px 0 26px}
+.choice{display:flex;align-items:center;gap:16px;width:100%;border:1px solid var(--hairline);border-radius:15px;padding:16px 18px;text-align:left;background:#fff;transition:.18s;margin-bottom:12px}
+.choice:hover{border-color:var(--green);box-shadow:0 10px 24px -16px rgba(63,174,111,.5);transform:translateY(-1px)}
+.choice .ci{width:44px;height:44px;border-radius:12px;background:var(--sage);display:grid;place-items:center;color:var(--green-deep);flex:0 0 44px}
+.choice .ci svg{width:21px;height:21px}
+.choice b{font-family:var(--display);font-size:15.5px;font-weight:600;display:block}
+.choice span{font-size:12.5px;color:var(--muted);line-height:1.4;display:block;margin-top:2px}
+.choice .arr{margin-left:auto;color:var(--green)}
+.assure{margin-top:18px;display:flex;gap:10px;align-items:center;background:var(--sage);border-radius:13px;padding:13px 15px;font-size:12px;color:var(--green-deep);line-height:1.4}
+.assure svg{width:18px;height:18px;flex:0 0 18px}
+.foot{margin-top:24px;text-align:center;color:#9aa8a1;font-size:11px;line-height:1.8}
+
+/* ---------- content scaffolding (light views) ---------- */
+.wrap{padding:8px 40px 48px;max-width:1180px;margin:0 auto}
+.h-title{font-family:var(--display);font-weight:600;font-size:32px;letter-spacing:-.015em;line-height:1.08}
+.h-sub{color:var(--muted);font-size:15px;margin-top:10px;max-width:60ch;line-height:1.55}
+.grid{display:grid;gap:18px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.cardw{background:#fff;border:1px solid var(--hairline);border-radius:18px;padding:24px}
+.cardw .kic{width:40px;height:40px;border-radius:11px;background:var(--sage);display:grid;place-items:center;color:var(--green-deep);margin-bottom:14px}
+.cardw .kic svg{width:20px;height:20px}
+.cardw h3{font-family:var(--display);font-size:17px;font-weight:600}
+.cardw p{font-size:13px;color:var(--muted);line-height:1.5;margin-top:7px}
+.tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--green-deep);background:var(--sage);padding:4px 10px;border-radius:999px}
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--body);font-weight:600;font-size:13.5px;background:var(--ink);color:#fff;padding:11px 18px;border-radius:11px;transition:.18s}
+.btn:hover{background:var(--green-deep)}
+.btn.green{background:var(--green)}.btn.green:hover{background:#2f9a5e}
+.btn.ghost{background:#fff;color:var(--text);border:1px solid var(--hairline)}
+.btn.ghost:hover{border-color:var(--green);color:var(--green-deep)}
+
+/* product split cards */
+.prodgrid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:24px}
+.prod{border-radius:20px;padding:30px;color:#fff;position:relative;overflow:hidden;min-height:320px;display:flex;flex-direction:column}
+.prod.compute{background:radial-gradient(120% 100% at 0% 0%,#1e3a2b,#0c1c14)}
+.prod.private{background:radial-gradient(120% 100% at 100% 0%,#16302a,#0b1714)}
+.prod .ptag{font-family:var(--display);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--green-bright);font-weight:600}
+.prod h3{font-family:var(--display);font-size:24px;font-weight:600;margin-top:10px;line-height:1.1}
+.prod p{color:rgba(255,255,255,.74);font-size:13.5px;line-height:1.55;margin-top:12px}
+.prod ul{list-style:none;margin-top:16px;display:flex;flex-direction:column;gap:9px}
+.prod li{display:flex;gap:9px;align-items:flex-start;font-size:13px;color:rgba(255,255,255,.88)}
+.prod li svg{width:16px;height:16px;color:var(--green-bright);flex:0 0 16px;margin-top:1px}
+.prod .pf{margin-top:auto;padding-top:20px;display:flex;align-items:center;justify-content:space-between}
+.prod .price{font-family:var(--display);font-size:14px;color:#fff;font-weight:500}
+.prod .price b{font-size:22px}
+
+/* ---------- AI DIAGRAM (signature) ---------- */
+.diagwrap{background:#fff;border:1px solid var(--hairline);border-radius:22px;padding:28px 26px 22px;margin-top:22px;position:relative}
+.boundary{border:1.5px dashed var(--green);border-radius:18px;padding:22px 20px 26px;position:relative;background:linear-gradient(180deg,#fbfdfb,#f3f9f5)}
+.boundary .blabel{position:absolute;top:-11px;left:24px;background:#fff;padding:0 12px;font-family:var(--display);font-size:12px;font-weight:600;color:var(--green-deep);letter-spacing:.02em;display:flex;align-items:center;gap:7px}
+.boundary .blabel svg{width:15px;height:15px;color:var(--green)}
+.tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:stretch}
+.tier{background:#fff;border:1px solid var(--sage-line);border-radius:14px;padding:18px 16px;display:flex;flex-direction:column;position:relative;transition:.18s}
+.tier:hover{border-color:var(--green);transform:translateY(-3px);box-shadow:0 16px 30px -22px rgba(63,174,111,.6)}
+.tier .step{font-family:var(--display);font-size:11px;font-weight:600;color:var(--green);letter-spacing:.05em}
+.tier .ti{width:42px;height:42px;border-radius:12px;background:var(--sage);display:grid;place-items:center;color:var(--green-deep);margin:10px 0 12px}
+.tier .ti svg{width:22px;height:22px}
+.tier h4{font-family:var(--display);font-size:15.5px;font-weight:600;line-height:1.15}
+.tier .who{font-size:11.5px;color:var(--green-deep);font-weight:600;margin-top:3px}
+.tier p{font-size:12px;color:var(--muted);line-height:1.45;margin-top:9px}
+.tier .arrow{position:absolute;right:-11px;top:50%;transform:translateY(-50%);width:22px;height:22px;background:#fff;border:1px solid var(--sage-line);border-radius:50%;display:grid;place-items:center;color:var(--green);z-index:3}
+.tier:last-child .arrow{display:none}
+.tier .arrow svg{width:13px;height:13px}
+.powerbar{margin-top:16px;background:var(--ink);border-radius:14px;padding:16px 20px;display:flex;align-items:center;gap:14px;color:#fff;position:relative;overflow:hidden}
+.powerbar:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(105,209,150,.16),transparent);}
+.powerbar .pic{width:38px;height:38px;border-radius:11px;background:rgba(105,209,150,.16);display:grid;place-items:center;color:var(--green-bright);flex:0 0 38px;position:relative}
+.powerbar .pic svg{width:20px;height:20px}
+.powerbar b{font-family:var(--display);font-size:14px;position:relative}
+.powerbar p{font-size:12px;color:rgba(255,255,255,.66);position:relative;margin-top:2px}
+.diaglegend{display:flex;gap:22px;margin-top:14px;flex-wrap:wrap}
+.diaglegend span{font-size:11.5px;color:var(--muted);display:flex;align-items:center;gap:7px}
+.dot{width:9px;height:9px;border-radius:3px;display:inline-block}
+
+/* how it works engine metaphor */
+.engine{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}
+.enginecard{background:#fff;border:1px solid var(--hairline);border-radius:16px;padding:22px;display:flex;gap:16px;align-items:center}
+.enginecard .em{width:54px;height:54px;border-radius:14px;background:var(--sage);display:grid;place-items:center;color:var(--green-deep);flex:0 0 54px}
+.enginecard .em svg{width:26px;height:26px}
+.enginecard h4{font-family:var(--display);font-size:16px;font-weight:600}
+.enginecard p{font-size:12.5px;color:var(--muted);line-height:1.45;margin-top:5px}
+
+/* why renewable compare */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:22px}
+.cmp{border-radius:18px;padding:26px;border:1px solid var(--hairline)}
+.cmp.bad{background:#fff}
+.cmp.good{background:linear-gradient(165deg,#1e3a2b,#0c1c14);color:#fff;border:none}
+.cmp .ch{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:600;font-size:16px}
+.cmp.bad .ch{color:var(--muted)}
+.cmp .badge{width:30px;height:30px;border-radius:9px;display:grid;place-items:center}
+.cmp.bad .badge{background:#f1efe8;color:#b8a86a}
+.cmp.good .badge{background:rgba(105,209,150,.18);color:var(--green-bright)}
+.cmp ul{list-style:none;margin-top:16px;display:flex;flex-direction:column;gap:11px}
+.cmp li{display:flex;gap:10px;font-size:13px;line-height:1.4}
+.cmp.bad li{color:var(--muted)}.cmp.good li{color:rgba(255,255,255,.9)}
+.cmp li svg{width:17px;height:17px;flex:0 0 17px;margin-top:1px}
+.cmp.bad li svg{color:#c9be8f}.cmp.good li svg{color:var(--green-bright)}
+
+/* pricing / hire a rig */
+.toggle{display:inline-flex;background:#fff;border:1px solid var(--hairline);border-radius:999px;padding:4px;margin-top:18px}
+.toggle button{font-size:12.5px;font-weight:600;color:var(--muted);padding:7px 16px;border-radius:999px}
+.toggle button.on{background:var(--ink);color:#fff}
+.rigtable{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--hairline);border-radius:16px;overflow:hidden;margin-top:18px;font-size:13px}
+.rigtable th{text-align:left;font-family:var(--display);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;padding:14px 16px;background:#fbfdfc;border-bottom:1px solid var(--hairline)}
+.rigtable td{padding:14px 16px;border-bottom:1px solid var(--hairline);color:var(--text)}
+.rigtable tr:last-child td{border-bottom:none}
+.rigtable tr:hover td{background:#fafdfb}
+.rigtable .gpu{font-family:var(--display);font-weight:600}
+.rigtable .vram{font-size:11px;color:var(--muted)}
+.rigtable .net{font-weight:600;color:var(--green-deep)}
+.rigtable .pick{font-size:12px;font-weight:600;color:#fff;background:var(--green);padding:7px 12px;border-radius:9px}
+.note{font-size:11.5px;color:var(--muted);margin-top:12px;line-height:1.5}
+
+/* ---------- dashboard (dark sidebar already from rail; light workspace) ---------- */
+.dashhead{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.statgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:20px}
+.stat{background:#fff;border:1px solid var(--hairline);border-radius:16px;padding:18px}
+.stat .l{font-size:11.5px;color:var(--muted);font-weight:500}
+.stat .v{font-family:var(--display);font-size:26px;font-weight:600;margin-top:8px}
+.stat .d{font-size:11.5px;margin-top:6px;font-weight:600}
+.stat .up{color:var(--green)}.stat .flat{color:var(--muted)}
+.panelgrid{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;margin-top:16px}
+.panel{background:#fff;border:1px solid var(--hairline);border-radius:18px;padding:22px}
+.panel h3{font-family:var(--display);font-size:15px;font-weight:600;margin-bottom:4px}
+.wlrow{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--hairline);font-size:13px}
+.wlrow:last-child{border:none}
+.wlrow .nm{font-weight:600}
+.wlrow .meta{font-size:11.5px;color:var(--muted)}
+.status{font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px}
+.status.run{background:var(--sage);color:var(--green-deep)}
+.status.done{background:#eef1f0;color:var(--muted)}
+.donut{display:flex;align-items:center;gap:20px}
+.donutring{width:120px;height:120px;border-radius:50%;flex:0 0 120px;
+  background:conic-gradient(var(--green) 0 69%, #7fb5e6 69% 93%, #b9d98c 93% 100%);
+  display:grid;place-items:center;position:relative}
+.donutring:after{content:"";position:absolute;inset:18px;background:#fff;border-radius:50%}
+.donutc{position:relative;text-align:center;z-index:2}
+.donutc b{font-family:var(--display);font-size:20px;display:block}
+.donutc span{font-size:10px;color:var(--muted)}
+.leg{display:flex;flex-direction:column;gap:9px;font-size:12.5px}
+.leg div{display:flex;align-items:center;gap:8px;color:var(--text)}
+
+/* investor */
+.phases{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:22px}
+.phase{background:#fff;border:1px solid var(--hairline);border-radius:16px;padding:20px;position:relative}
+.phase .pn{font-family:var(--display);font-size:11px;font-weight:600;color:var(--green);letter-spacing:.08em}
+.phase h4{font-family:var(--display);font-size:16px;font-weight:600;margin-top:8px}
+.phase p{font-size:12.5px;color:var(--muted);line-height:1.45;margin-top:7px}
+.phase .line{position:absolute;right:-11px;top:34px;color:var(--sage-line);z-index:2}
+.phase:last-child .line{display:none}
+.invtwo{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+
+@media (max-width:920px){
+  .landing,.prodgrid,.compare,.engine,.invtwo,.panelgrid{grid-template-columns:1fr}
+  .tiers,.statgrid,.phases,.g3,.g4{grid-template-columns:1fr 1fr}
+  body{overflow:auto}
+  .view{position:relative;visibility:visible;opacity:1;display:none}
+  .view.show{display:block}
+  .tier .arrow{display:none}
+}
+</style>
+
+<div class="app">
+  <!-- LEFT ICON RAIL -->
+  <aside class="rail">
+    <div class="brandmark" title="Verified Renewable Compute">
+      <svg viewBox="0 0 32 32" fill="none"><path d="M16 2 28 9v14L16 30 4 23V9L16 2Z" stroke="#69d196" stroke-width="1.6"/><path d="M16 11c-3 0-5 2-5 5 3 0 5-2 5-5Zm0 0c3 0 5 2 5 5-3 0-5-2-5-5Z" fill="#69d196"/><path d="M16 16v5" stroke="#69d196" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </div>
+    <nav class="nav" id="navPublic">
+      <button class="navbtn active" data-view="landing"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 11 12 3l9 8M5 10v10h14V10" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="tip">Home</span></button>
+      <button class="navbtn" data-view="offer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="6" rx="1.5"/><rect x="3" y="14" width="18" height="6" rx="1.5"/></svg><span class="tip">What we offer</span></button>
+      <button class="navbtn" data-view="how"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2" stroke-linecap="round"/></svg><span class="tip">How it works + AI map</span></button>
+      <button class="navbtn" data-view="why"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3l8 3v6c0 5-3.5 7.5-8 9-4.5-1.5-8-4-8-9V6l8-3Z" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="tip">Why verified renewable</span></button>
+      <button class="navbtn" data-view="compute"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9zM9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3" stroke-linecap="round"/></svg><span class="tip">Compute pricing</span></button>
+    </nav>
+    <nav class="nav" id="navClient" style="display:none">
+      <button class="navbtn active" data-view="dash"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="5" rx="1.5"/><rect x="13" y="11" width="8" height="10" rx="1.5"/><rect x="3" y="14" width="8" height="7" rx="1.5"/></svg><span class="tip">Dashboard</span></button>
+      <button class="navbtn" data-view="hire"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z" /></svg><span class="tip">Hire a rig</span></button>
+      <button class="navbtn" data-view="invest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19V5M4 19h16M7 15l4-5 3 3 5-7" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="tip">Investor & growth</span></button>
+    </nav>
+    <div class="railspacer"></div>
+    <button class="navbtn" id="modeToggle" title="Switch site / client"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M16 3h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-3M10 17l5-5-5-5M15 12H3" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="tip">Switch view</span></button>
+  </aside>
+
+  <!-- STAGE -->
+  <main class="stage">
+
+    <!-- LANDING -->
+    <section class="view show" id="v-landing">
+      <div class="landing">
+        <div class="scene">
+          <div class="turb"></div><div class="hills"></div>
+          <div class="scene-top">
+            <div class="wordmark">
+              <svg width="30" height="30" viewBox="0 0 32 32" fill="none"><path d="M16 2 28 9v14L16 30 4 23V9L16 2Z" stroke="#69d196" stroke-width="1.6"/><path d="M16 11c-3 0-5 2-5 5 3 0 5-2 5-5Zm0 0c3 0 5 2 5 5-3 0-5-2-5-5Z" fill="#69d196"/></svg>
+              <div><div class="wm-h">VERIFIED</div><div class="wm-s">RENEWABLE COMPUTE</div></div>
+            </div>
+            <div class="pill" style="color:rgba(255,255,255,.7)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3l8 3v6c0 5-3.5 7.5-8 9-4.5-1.5-8-4-8-9V6l8-3Z" stroke-linejoin="round"/></svg>
+              Secure. Private. Sustainable.
+            </div>
+          </div>
+          <div>
+            <h1>Private AI.<br><span class="g">Powered by renewable energy.</span></h1>
+            <p class="lead">Secure AI compute backed by verified renewable energy — with transparent carbon reporting and your data kept entirely your own.</p>
+          </div>
+          <div class="feat">
+            <div class="row"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M11 3c-4 0-7 3-7 7 4 0 7-3 7-7Zm2 0c4 0 7 3 7 7-4 0-7-3-7-7Z"/></svg></div><div><b>Verified renewable energy</b><p>Every workload runs on renewable power we can prove — not just claim.</p></div></div>
+            <div class="row"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3" stroke-linecap="round"/></svg></div><div><b>We never see your data</b><p>You bring the questions and documents. We provide the engine — nothing more.</p></div></div>
+            <div class="row"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 18V9M10 18V5M16 18v-7M22 18H2" stroke-linecap="round"/></svg></div><div><b>Transparent reporting</b><p>Live view of usage, spend and the carbon you avoid.</p></div></div>
+          </div>
+        </div>
+        <div class="loginpane">
+          <div class="logincard">
+            <h2>Welcome to<br>Verified Renewable Compute</h2>
+            <p class="sub">Choose how you'd like to start</p>
+            <button class="choice" onclick="go('offer')">
+              <span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7" stroke-linecap="round"/></svg></span>
+              <span><b>Visitor</b><span>See what we offer, how it works, and why renewable AI is different.</span></span>
+              <span class="arr"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </button>
+            <button class="choice" onclick="enterClient()">
+              <span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3" stroke-linecap="round"/></svg></span>
+              <span><b>Log in</b><span>View your rig, hire compute, and track investment performance.</span></span>
+              <span class="arr"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </button>
+            <div class="assure">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3l8 3v6c0 5-3.5 7.5-8 9-4.5-1.5-8-4-8-9V6l8-3Z" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Your documents and questions stay inside your private environment. We run the compute — we never read what's in it.
+            </div>
+            <div class="foot">© 2026 Verified Renewable Compute<br>Privacy Policy · Terms of Service · Contact</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT WE OFFER -->
+    <section class="view" id="v-offer">
+      <div class="topbar"><span class="eyebrow">What we offer</span><div class="modeswitch"><button class="on">Visitor</button><button onclick="enterClient()">Client login</button></div></div>
+      <div class="wrap">
+        <h1 class="h-title">Two ways to put renewable AI to work.</h1>
+        <p class="h-sub">Hire renewable compute power by the hour, day or week — or let us set up a private AI environment for your business. Both run on verified renewable energy, and both keep your information entirely your own.</p>
+        <div class="prodgrid">
+          <div class="prod compute">
+            <div class="ptag">Product 01</div>
+            <h3>Renewable Compute</h3>
+            <p>Raw compute power — the engine behind AI and heavy workloads — rented flexibly and powered by renewable energy at 7p/kWh.</p>
+            <ul>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12l4 4 10-10" stroke-linecap="round" stroke-linejoin="round"/></svg>Hire by the hour, day or week</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12l4 4 10-10" stroke-linecap="round" stroke-linejoin="round"/></svg>Scale from a single card to a full rig</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12l4 4 10-10" stroke-linecap="round" stroke-linejoin="round"/></svg>Verified renewable power, carbon reported</li>
+            </ul>
+            <div class="pf"><span class="price">from <b>£0.18</b>/hr</span><button class="btn green" onclick="go('compute')">See pricing</button></div>
+          </div>
+          <div class="prod private">
+            <div class="ptag">Product 02</div>
+            <h3>Private AI</h3>
+            <p>A complete AI environment set up for your business — assistants, document search and team knowledge — where your data never leaves your space.</p>
+            <ul>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12l4 4 10-10" stroke-linecap="round" stroke-linejoin="round"/></svg>We never see your documents or questions</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12l4 4 10-10" stroke-linecap="round" stroke-linejoin="round"/></svg>Set up in the cloud or on a dedicated rig</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12l4 4 10-10" stroke-linecap="round" stroke-linejoin="round"/></svg>Four levels, from solo assistant to dedicated AI</li>
+            </ul>
+            <div class="pf"><span class="price">tailored setup</span><button class="btn green" onclick="go('how')">See the AI map</button></div>
+          </div>
+        </div>
+        <div style="margin-top:22px" class="grid g3">
+          <div class="cardw"><div class="kic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 4h16v12H4zM2 20h20" stroke-linecap="round"/></svg></div><h3>Consulting &amp; setup</h3><p>We help you work out where AI fits, then set it up. You're not left to figure it out alone.</p></div>
+          <div class="cardw"><div class="kic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round"/></svg></div><h3>Managed, not abandoned</h3><p>Updates, monitoring and support handled for you on renewable infrastructure.</p></div>
+          <div class="cardw"><div class="kic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3l2.5 5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-1L12 3Z" stroke-linejoin="round"/></svg></div><h3>Founding member access</h3><p>Early customers get priority access, better pricing and compute credits.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS + DIAGRAM -->
+    <section class="view" id="v-how">
+      <div class="topbar"><span class="eyebrow">How it works</span><div class="modeswitch"><button class="on">Visitor</button><button onclick="enterClient()">Client login</button></div></div>
+      <div class="wrap">
+        <h1 class="h-title">AI, explained without the jargon.</h1>
+        <p class="h-sub">AI is a digital assistant that can read, write, summarise, search and analyse. Compute power is the engine that runs it — and we supply that engine, powered by renewable energy, without ever seeing your data.</p>
+
+        <div class="engine">
+          <div class="enginecard"><div class="em"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 16l2-5h6l2 3h4v2H5z" stroke-linejoin="round"/><circle cx="8" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg></div><div><h4>Light tasks → a small engine</h4><p>Writing an email, summarising a page, answering a quick question. Modest compute, low cost.</p></div></div>
+          <div class="enginecard"><div class="em"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="8" width="14" height="9" rx="1"/><path d="M16 11h3l3 3v3h-6z" stroke-linejoin="round"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg></div><div><h4>Heavy work → a bigger engine</h4><p>Searching thousands of documents or running a model for a whole team. More compute, more power — still renewable.</p></div></div>
+        </div>
+
+        <h2 class="h-title" style="font-size:22px;margin-top:32px">The four AI options — and the privacy line we never cross</h2>
+        <div class="diagwrap">
+          <div class="boundary">
+            <div class="blabel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3" stroke-linecap="round"/></svg>Your private environment — your data stays inside this line</div>
+            <div class="tiers">
+              <div class="tier">
+                <div class="step">Option 1</div>
+                <div class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6" stroke-linecap="round"/></svg></div>
+                <h4>AI Assistant</h4><div class="who">Just for you</div>
+                <p>Writing, research, emails and reports — a capable assistant for one person.</p>
+                <div class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 12h12M13 7l5 5-5 5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              </div>
+              <div class="tier">
+                <div class="step">Option 2</div>
+                <div class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 3h9l4 4v14H6z" stroke-linejoin="round"/><path d="M9 12h7M9 16h7" stroke-linecap="round"/></svg></div>
+                <h4>Document AI</h4><div class="who">Your documents</div>
+                <p>Ask plain-English questions across your own files and get answers with sources.</p>
+                <div class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 12h12M13 7l5 5-5 5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              </div>
+              <div class="tier">
+                <div class="step">Option 3</div>
+                <div class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="9" cy="9" r="3"/><circle cx="17" cy="11" r="2.5"/><path d="M3 19c0-3 2.5-5 6-5s6 2 6 5M15 19c0-2 1.5-3.5 4-3.5" stroke-linecap="round"/></svg></div>
+                <h4>Team AI</h4><div class="who">Your whole team</div>
+                <p>A shared knowledge assistant that knows how your business works.</p>
+                <div class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 12h12M13 7l5 5-5 5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              </div>
+              <div class="tier">
+                <div class="step">Option 4</div>
+                <div class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="4" y="4" width="16" height="7" rx="1.5"/><rect x="4" y="13" width="16" height="7" rx="1.5"/><path d="M8 7.5h.01M8 16.5h.01" stroke-linecap="round"/></svg></div>
+                <h4>Dedicated AI</h4><div class="who">Your own infrastructure</div>
+                <p>A private rig reserved entirely for you — maximum power and control.</p>
+              </div>
+            </div>
+          </div>
+          <div class="powerbar">
+            <div class="pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z" stroke-linejoin="round"/></svg></div>
+            <div><b>All four options run on verified renewable energy</b><p>The same renewable power sits underneath every level — that's the part nobody else can verify the way we do.</p></div>
+          </div>
+          <div class="diaglegend">
+            <span><i class="dot" style="background:var(--green)"></i> Inside the dashed line = yours. We can't see it.</span>
+            <span><i class="dot" style="background:var(--ink)"></i> The engine + renewable power = what we provide.</span>
+          </div>
+        </div>
+        <p class="note">How privacy works in practice: you can tell us whether an answer was accurate so the service improves — but we never see the documents, questions or content inside your environment. For a legal firm, that means the case files and the questions asked about them stay confidential, full stop.</p>
+      </div>
+    </section>
+
+    <!-- WHY VERIFIED RENEWABLE -->
+    <section class="view" id="v-why">
+      <div class="topbar"><span class="eyebrow">Why verified renewable</span><div class="modeswitch"><button class="on">Visitor</button><button onclick="enterClient()">Client login</button></div></div>
+      <div class="wrap">
+        <h1 class="h-title">Plenty of companies say "green". We prove it.</h1>
+        <p class="h-sub">AI uses a lot of power, and a lot of it comes from sources that aren't clean. Most providers tell you their energy is green. The difference is the word in our name: verified.</p>
+        <div class="compare">
+          <div class="cmp bad">
+            <div class="ch"><span class="badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 9v4M12 17h.01M10.3 4l-7 12a2 2 0 0 0 1.7 3h14a2 2 0 0 0 1.7-3l-7-12a2 2 0 0 0-3.4 0Z" stroke-linejoin="round"/></svg></span>The usual "green" claim</div>
+            <ul>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/></svg>"Green" stated on a website, with nothing to check it against.</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/></svg>Carbon offsets bought elsewhere to cancel out dirty power.</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/></svg>No way to see what your own workload actually used.</li>
+            </ul>
+          </div>
+          <div class="cmp good">
+            <div class="ch"><span class="badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3l8 3v6c0 5-3.5 7.5-8 9-4.5-1.5-8-4-8-9V6l8-3Z" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Verified Renewable Compute</div>
+            <ul>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12l4 4 10-10" stroke-linecap="round" stroke-linejoin="round"/></svg>Renewable power we operate and can evidence, at 7p/kWh.</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12l4 4 10-10" stroke-linecap="round" stroke-linejoin="round"/></svg>Real renewable energy, not offsets bolted on afterwards.</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12l4 4 10-10" stroke-linecap="round" stroke-linejoin="round"/></svg>A live carbon report for your own usage, in your dashboard.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="grid g3" style="margin-top:20px">
+          <div class="cardw"><div class="kic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M11 3c-4 0-7 3-7 7 4 0 7-3 7-7Zm2 0c4 0 7 3 7 7-4 0-7-3-7-7Z"/></svg></div><h3>Cheaper to run</h3><p>Low-cost renewable power keeps compute affordable — and passes savings to you.</p></div>
+          <div class="cardw"><div class="kic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 18V9M10 18V5M16 18v-7M22 18H2" stroke-linecap="round"/></svg></div><h3>Reportable</h3><p>Show clients and regulators the carbon you avoided, with numbers you can stand behind.</p></div>
+          <div class="cardw"><div class="kic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h4l3 8 4-16 3 8h4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>Future-proof</h3><p>As AI demand grows, renewable supply is what keeps it sustainable and stable.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPUTE PRICING -->
+    <section class="view" id="v-compute">
+      <div class="topbar"><span class="eyebrow">Compute pricing</span><div class="modeswitch"><button class="on">Visitor</button><button onclick="enterClient()">Client login</button></div></div>
+      <div class="wrap">
+        <h1 class="h-title">Hire renewable compute, your way.</h1>
+        <p class="h-sub">Pick the power you need and how long you need it. Figures below are indicative monthly earnings and payback for hosting a card, based on realistic usage and 7p/kWh renewable power.</p>
+        <div class="toggle"><button class="on">Hourly</button><button>Daily</button><button>Weekly</button></div>
+        <table class="rigtable">
+          <thead><tr><th>Compute tier</th><th>Memory</th><th>Indicative net / mo</th><th>Payback</th><th>Best for</th><th></th></tr></thead>
+          <tbody>
+            <tr><td class="gpu">Starter <span class="vram">· 3060-class</span></td><td>12 GB</td><td class="net">~£60</td><td>~3.7 mo</td><td>Light assistants, testing</td><td><button class="pick">Hire</button></td></tr>
+            <tr><td class="gpu">Standard <span class="vram">· 3080 Ti-class</span></td><td>12 GB</td><td class="net">~£111</td><td>~4.5 mo</td><td>Document AI, small teams</td><td><button class="pick">Hire</button></td></tr>
+            <tr><td class="gpu">Performance <span class="vram">· 3090-class</span></td><td>24 GB</td><td class="net">~£201</td><td>~3.7 mo</td><td>Best all-round AI value</td><td><button class="pick">Hire</button></td></tr>
+            <tr><td class="gpu">Pro <span class="vram">· 4080-class</span></td><td>16 GB</td><td class="net">~£252</td><td>~4.2 mo</td><td>Team workloads</td><td><button class="pick">Hire</button></td></tr>
+            <tr><td class="gpu">Max <span class="vram">· 4090-class</span></td><td>24 GB</td><td class="net">~£438</td><td>~3.7 mo</td><td>Heavy, demanding work</td><td><button class="pick">Hire</button></td></tr>
+            <tr><td class="gpu">Large-model <span class="vram">· A6000-class</span></td><td>48 GB</td><td class="net">~£542</td><td>~4.1 mo</td><td>Big private models</td><td><button class="pick">Hire</button></td></tr>
+          </tbody>
+        </table>
+        <p class="note">Indicative only — based on your v7 ROI model at realistic utilisation and 7p/kWh, including setup at 25% of card cost. Not a guarantee of earnings; actual results depend on demand and market prices. Customer-facing names hide the hardware; the underlying cards are shown for reference.</p>
+      </div>
+    </section>
+
+    <!-- DASHBOARD -->
+    <section class="view" id="v-dash">
+      <div class="topbar"><span class="eyebrow">Client · Dashboard</span><div class="modeswitch"><button onclick="exitClient()">Visitor</button><button class="on">Client login</button></div></div>
+      <div class="wrap">
+        <div class="dashhead">
+          <div><h1 class="h-title" style="font-size:26px">Welcome back, Admin</h1><p class="h-sub" style="margin-top:6px">Here's how your renewable compute is performing.</p></div>
+          <button class="btn green">+ New workload</button>
+        </div>
+        <div class="statgrid">
+          <div class="stat"><div class="l">Active workloads</div><div class="v">12</div><div class="d up">▲ 2 from last 7 days</div></div>
+          <div class="stat"><div class="l">Compute usage</div><div class="v">67%</div><div class="d up">▲ 5% from last 7 days</div></div>
+          <div class="stat"><div class="l">Net this month</div><div class="v">£872</div><div class="d up">▲ 2× RTX 4090 rig</div></div>
+          <div class="stat"><div class="l">CO₂ avoided</div><div class="v">2.47 t</div><div class="d flat">vs grid average</div></div>
+        </div>
+        <div class="panelgrid">
+          <div class="panel">
+            <h3>Recent workloads</h3>
+            <div class="wlrow"><div><div class="nm">Research Assistant</div><div class="meta">8× compute · running 4h</div></div><span class="status run">Running</span></div>
+            <div class="wlrow"><div><div class="nm">Document Analysis</div><div class="meta">4× compute · running 1h</div></div><span class="status run">Running</span></div>
+            <div class="wlrow"><div><div class="nm">Financial Modelling</div><div class="meta">2× compute · completed</div></div><span class="status done">Completed</span></div>
+            <div class="wlrow"><div><div class="nm">Team Knowledge Sync</div><div class="meta">1× compute · running 12h</div></div><span class="status run">Running</span></div>
+          </div>
+          <div class="panel">
+            <h3>Carbon impact · this month</h3>
+            <div class="donut" style="margin-top:14px">
+              <div class="donutring"><div class="donutc"><b>2.47t</b><span>CO₂ avoided</span></div></div>
+              <div class="leg">
+                <div><i class="dot" style="background:var(--green)"></i> Wind · 69%</div>
+                <div><i class="dot" style="background:#7fb5e6"></i> Solar · 24%</div>
+                <div><i class="dot" style="background:#b9d98c"></i> Hydro · 7%</div>
+              </div>
+            </div>
+            <p class="note">Powered at 7p/kWh renewable. Report exportable for clients &amp; ESG.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HIRE A RIG -->
+    <section class="view" id="v-hire">
+      <div class="topbar"><span class="eyebrow">Client · Hire a rig</span><div class="modeswitch"><button onclick="exitClient()">Visitor</button><button class="on">Client login</button></div></div>
+      <div class="wrap">
+        <h1 class="h-title" style="font-size:26px">Available compute to hire</h1>
+        <p class="h-sub" style="margin-top:6px">Reserve a single card or build a full rig. Figures are indicative monthly net and payback from your v7 model.</p>
+        <table class="rigtable">
+          <thead><tr><th>Rig</th><th>Cards</th><th>Memory</th><th>Investment</th><th>Net / mo</th><th>Payback</th><th></th></tr></thead>
+          <tbody>
+            <tr><td class="gpu">Starter rig</td><td>5× 2080-class</td><td>8 GB ea</td><td>£1,125</td><td class="net">~£218</td><td>~5.2 mo</td><td><button class="pick">Reserve</button></td></tr>
+            <tr><td class="gpu">Value AI rig</td><td>2× 3090-class</td><td>24 GB ea</td><td>£1,500</td><td class="net">~£397</td><td>~3.8 mo</td><td><button class="pick">Reserve</button></td></tr>
+            <tr><td class="gpu">Performance rig</td><td>4× 3080 Ti-class</td><td>12 GB ea</td><td>£2,000</td><td class="net">~£440</td><td>~4.5 mo</td><td><button class="pick">Reserve</button></td></tr>
+            <tr><td class="gpu">Max rig</td><td>2× 4090-class</td><td>24 GB ea</td><td>£3,250</td><td class="net">~£872</td><td>~3.7 mo</td><td><button class="pick">Reserve</button></td></tr>
+          </tbody>
+        </table>
+        <p class="note">Indicative only, from the Rig Builder tab of your v7 spreadsheet (realistic utilisation, 7p/kWh, setup at 25%). Not guaranteed returns.</p>
+      </div>
+    </section>
+
+    <!-- INVESTOR -->
+    <section class="view" id="v-invest">
+      <div class="topbar"><span class="eyebrow">Client · Investor &amp; growth</span><div class="modeswitch"><button onclick="exitClient()">Visitor</button><button class="on">Client login</button></div></div>
+      <div class="wrap">
+        <h1 class="h-title" style="font-size:26px">Getting ahead of where this is going.</h1>
+        <p class="h-sub" style="margin-top:6px">AI demand is rising fast and renewable supply is the constraint. We're building verified renewable compute now — operating it ourselves first, because we know how to. Growth comes from doing the work, not promises.</p>
+        <div class="phases">
+          <div class="phase"><div class="pn">Phase 1</div><h4>Operate</h4><p>Run our own renewable rigs and prove the economics.</p><div class="line"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 12h12M13 7l5 5-5 5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+          <div class="phase"><div class="pn">Phase 2</div><h4>Add customers</h4><p>Bring on businesses for compute and private AI.</p><div class="line"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 12h12M13 7l5 5-5 5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+          <div class="phase"><div class="pn">Phase 3</div><h4>Reinvest</h4><p>Put revenue back into more renewable capacity.</p><div class="line"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 12h12M13 7l5 5-5 5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+          <div class="phase"><div class="pn">Phase 4</div><h4>Expand</h4><p>Scale capacity — including land hosted by farmers.</p></div>
+        </div>
+        <div class="invtwo">
+          <div class="cardw"><span class="tag">Why now</span><h3 style="margin-top:12px">Real infrastructure, real revenue</h3><p style="margin-top:8px">This isn't a token or a promise of returns. It's physical renewable compute earning real income, with strong margins from low-cost renewable power. Experienced team, doing the build ourselves first.</p></div>
+          <div class="cardw"><span class="tag">Two ways in</span><h3 style="margin-top:12px">Invest, or host a rig</h3><p style="margin-top:8px">There's room for investment as we expand — and for landowners and farmers to host capacity on renewable sites. We're scoping both carefully once our own rigs are proven.</p><button class="btn" style="margin-top:16px">Register interest</button></div>
+        </div>
+        <p class="note">For information only. Nothing here is financial advice or an offer of securities, and no returns are guaranteed.</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+const views = {
+  landing:'v-landing', offer:'v-offer', how:'v-how', why:'v-why', compute:'v-compute',
+  dash:'v-dash', hire:'v-hire', invest:'v-invest'
+};
+const publicViews = ['landing','offer','how','why','compute'];
+function go(v){
+  document.querySelectorAll('.view').forEach(s=>s.classList.remove('show'));
+  document.getElementById(views[v]).classList.add('show');
+  document.querySelectorAll('.stage')[0].scrollTop=0;
+  document.querySelectorAll('.navbtn[data-view]').forEach(b=>{
+    b.classList.toggle('active', b.dataset.view===v);
+  });
+  // keep correct rail visible
+  const isClient = !publicViews.includes(v);
+  document.getElementById('navPublic').style.display = isClient?'none':'flex';
+  document.getElementById('navClient').style.display = isClient?'flex':'none';
+}
+function enterClient(){ go('dash'); }
+function exitClient(){ go('landing'); }
+document.querySelectorAll('.navbtn[data-view]').forEach(b=>{
+  b.addEventListener('click',()=>go(b.dataset.view));
+});
+document.getElementById('modeToggle').addEventListener('click',()=>{
+  const clientVisible = document.getElementById('navClient').style.display!=='none';
+  clientVisible ? exitClient() : enterClient();
+});
+</script>
