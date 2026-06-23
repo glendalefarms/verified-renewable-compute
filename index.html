@@ -121,10 +121,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .btn.ghost:hover{border-color:var(--green);color:var(--green-deep)}
 
 /* product split cards */
-.prodgrid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:24px}
-.prod{border-radius:20px;padding:30px;color:#fff;position:relative;overflow:hidden;min-height:320px;display:flex;flex-direction:column}
+.prodgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:18px;margin-top:24px}
+.prod{border-radius:20px;padding:28px;color:#fff;position:relative;overflow:hidden;min-height:330px;display:flex;flex-direction:column}
 .prod.compute{background:radial-gradient(120% 100% at 0% 0%,#1e3a2b,#0c1c14)}
 .prod.private{background:radial-gradient(120% 100% at 100% 0%,#16302a,#0b1714)}
+.prod.api{background:radial-gradient(120% 100% at 50% 0%,#19332b,#0a1512)}
 .prod .ptag{font-family:var(--display);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--green-bright);font-weight:600}
 .prod h3{font-family:var(--display);font-size:24px;font-weight:600;margin-top:10px;line-height:1.1}
 .prod p{color:rgba(255,255,255,.74);font-size:13.5px;line-height:1.55;margin-top:12px}
@@ -169,6 +170,29 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .enginecard .em svg{width:26px;height:26px}
 .enginecard h4{font-family:var(--display);font-size:16px;font-weight:600}
 .enginecard p{font-size:12.5px;color:var(--muted);line-height:1.45;margin-top:5px}
+
+/* flow / decision diagram */
+.flowwrap{background:#fff;border:1px solid var(--hairline);border-radius:22px;padding:26px;margin-top:22px}
+.flowq{display:inline-flex;align-items:center;gap:10px;background:var(--ink);color:#fff;font-family:var(--display);font-weight:600;font-size:14px;padding:12px 20px;border-radius:13px;margin:0 auto 20px;justify-self:center}
+.flowq svg{width:18px;height:18px;color:var(--green-bright)}
+.flowtop{display:flex;justify-content:center}
+.flowrows{display:flex;flex-direction:column;gap:11px}
+.flowrow{display:grid;grid-template-columns:1fr 40px 1fr;align-items:center;gap:8px}
+.need{display:flex;align-items:center;gap:12px;border:1px solid var(--hairline);border-radius:13px;padding:13px 16px;background:#fbfdfc}
+.need .ni{width:34px;height:34px;border-radius:9px;background:#eef2f0;display:grid;place-items:center;color:var(--muted);flex:0 0 34px}
+.need .ni svg{width:18px;height:18px}
+.need b{font-size:13px;font-weight:600;display:block}
+.need span{font-size:11.5px;color:var(--muted)}
+.flowarr{display:grid;place-items:center;color:var(--green)}
+.flowarr svg{width:20px;height:20px}
+.outcome{display:flex;align-items:center;gap:12px;border:1px solid var(--sage-line);border-radius:13px;padding:13px 16px;background:linear-gradient(180deg,#fbfdfb,#f1f8f4)}
+.outcome .oi{width:34px;height:34px;border-radius:9px;background:var(--sage);display:grid;place-items:center;color:var(--green-deep);flex:0 0 34px}
+.outcome .oi svg{width:18px;height:18px}
+.outcome b{font-family:var(--display);font-size:13.5px;font-weight:600;display:block}
+.outcome span{font-size:11.5px;color:var(--green-deep)}
+.flowbanner{margin-top:16px;background:var(--green-deep);color:#fff;border-radius:14px;padding:15px 20px;display:flex;align-items:center;gap:13px;font-size:13px}
+.flowbanner svg{width:20px;height:20px;color:var(--green-bright);flex:0 0 20px}
+.flowbanner b{font-family:var(--display)}
 
 /* why renewable compare */
 .compare{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:22px}
@@ -353,6 +377,17 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
             </ul>
             <div class="pf"><span class="price">tailored setup</span><button class="btn green" onclick="go('how')">See the AI map</button></div>
           </div>
+          <div class="prod api">
+            <div class="ptag">Product 03</div>
+            <h3>Specialist API</h3>
+            <p>A private AI trained for one subject, delivered as an API you drop straight into your own website or product — an in-house expert, on tap.</p>
+            <ul>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12l4 4 10-10" stroke-linecap="round" stroke-linejoin="round"/></svg>Specialist in your area, not a generic chatbot</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12l4 4 10-10" stroke-linecap="round" stroke-linejoin="round"/></svg>Embed it on your site with a few lines of code</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12l4 4 10-10" stroke-linecap="round" stroke-linejoin="round"/></svg>Cloud-based — your data and your users' stay private</li>
+            </ul>
+            <div class="pf"><span class="price">per-call or hosted</span><button class="btn green" onclick="go('how')">How it works</button></div>
+          </div>
         </div>
         <div style="margin-top:22px" class="grid g3">
           <div class="cardw"><div class="kic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 4h16v12H4zM2 20h20" stroke-linecap="round"/></svg></div><h3>Consulting &amp; setup</h3><p>We help you work out where AI fits, then set it up. You're not left to figure it out alone.</p></div>
@@ -417,7 +452,40 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
             <span><i class="dot" style="background:var(--ink)"></i> The engine + renewable power = what we provide.</span>
           </div>
         </div>
-        <p class="note">How privacy works in practice: you can tell us whether an answer was accurate so the service improves — but we never see the documents, questions or content inside your environment. For a legal firm, that means the case files and the questions asked about them stay confidential, full stop.</p>
+        <p class="note">Each level can also be delivered as a <b>Specialist API</b> — the same private AI, embedded directly in your own website or product as an in-house expert. And how privacy works in practice: you can tell us whether an answer was accurate so the service improves, but we never see the documents, questions or content inside your environment. For a legal firm, the case files and the questions asked about them stay confidential, full stop.</p>
+
+        <h2 class="h-title" style="font-size:22px;margin-top:32px">Not sure which you need? Follow the line.</h2>
+        <div class="flowwrap">
+          <div class="flowtop"><div class="flowq"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.8.4-1 .9-1 1.7M12 17h.01" stroke-linecap="round"/></svg>What do you need AI to do?</div></div>
+          <div class="flowrows">
+            <div class="flowrow">
+              <div class="need"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6" stroke-linecap="round"/></svg></span><span><b>Help one person work faster</b><span>Emails, writing, research</span></span></div>
+              <div class="flowarr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div class="outcome"><span class="oi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6" stroke-linecap="round"/></svg></span><span><b>AI Assistant</b><span>Just for you</span></span></div>
+            </div>
+            <div class="flowrow">
+              <div class="need"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 3h9l4 4v14H6z" stroke-linejoin="round"/><path d="M9 12h7M9 16h7" stroke-linecap="round"/></svg></span><span><b>Answer questions from our files</b><span>Search your own documents</span></span></div>
+              <div class="flowarr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div class="outcome"><span class="oi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 3h9l4 4v14H6z" stroke-linejoin="round"/><path d="M9 12h7M9 16h7" stroke-linecap="round"/></svg></span><span><b>Document AI</b><span>Your documents</span></span></div>
+            </div>
+            <div class="flowrow">
+              <div class="need"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="9" cy="9" r="3"/><circle cx="17" cy="11" r="2.5"/><path d="M3 19c0-3 2.5-5 6-5s6 2 6 5" stroke-linecap="round"/></svg></span><span><b>One brain for the whole team</b><span>Shared company knowledge</span></span></div>
+              <div class="flowarr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div class="outcome"><span class="oi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="9" cy="9" r="3"/><circle cx="17" cy="11" r="2.5"/><path d="M3 19c0-3 2.5-5 6-5s6 2 6 5" stroke-linecap="round"/></svg></span><span><b>Team AI</b><span>Your whole team</span></span></div>
+            </div>
+            <div class="flowrow">
+              <div class="need"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M8 6 3 12l5 6M16 6l5 6-5 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><b>Put AI inside our own website</b><span>An expert built into your product</span></span></div>
+              <div class="flowarr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div class="outcome"><span class="oi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M8 6 3 12l5 6M16 6l5 6-5 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><b>Specialist API</b><span>In your site or app</span></span></div>
+            </div>
+            <div class="flowrow">
+              <div class="need"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="4" y="4" width="16" height="7" rx="1.5"/><rect x="4" y="13" width="16" height="7" rx="1.5"/><path d="M8 7.5h.01M8 16.5h.01" stroke-linecap="round"/></svg></span><span><b>Total control, nothing shared</b><span>A rig reserved for you</span></span></div>
+              <div class="flowarr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div class="outcome"><span class="oi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="4" y="4" width="16" height="7" rx="1.5"/><rect x="4" y="13" width="16" height="7" rx="1.5"/></svg></span><span><b>Dedicated AI</b><span>Your own infrastructure</span></span></div>
+            </div>
+          </div>
+          <div class="flowbanner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M7 18a4 4 0 0 1 0-8 5 5 0 0 1 9.6-1.5A3.5 3.5 0 0 1 18 18H7Z" stroke-linejoin="round"/><path d="M12 12v4M10 14l2-2 2 2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Every route is <b>cloud-based and private</b> — set up in our cloud so your information, and your customers', is never seen by us or anyone else.</span></div>
+        </div>
       </div>
     </section>
 
@@ -542,11 +610,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
           <div class="phase"><div class="pn">Phase 1</div><h4>Operate</h4><p>Run our own renewable rigs and prove the economics.</p><div class="line"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 12h12M13 7l5 5-5 5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
           <div class="phase"><div class="pn">Phase 2</div><h4>Add customers</h4><p>Bring on businesses for compute and private AI.</p><div class="line"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 12h12M13 7l5 5-5 5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
           <div class="phase"><div class="pn">Phase 3</div><h4>Reinvest</h4><p>Put revenue back into more renewable capacity.</p><div class="line"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 12h12M13 7l5 5-5 5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-          <div class="phase"><div class="pn">Phase 4</div><h4>Expand</h4><p>Scale capacity — including land hosted by farmers.</p></div>
+          <div class="phase"><div class="pn">Phase 4</div><h4>Expand</h4><p>Scale renewable capacity across more sites and customers.</p></div>
         </div>
         <div class="invtwo">
           <div class="cardw"><span class="tag">Why now</span><h3 style="margin-top:12px">Real infrastructure, real revenue</h3><p style="margin-top:8px">This isn't a token or a promise of returns. It's physical renewable compute earning real income, with strong margins from low-cost renewable power. Experienced team, doing the build ourselves first.</p></div>
-          <div class="cardw"><span class="tag">Two ways in</span><h3 style="margin-top:12px">Invest, or host a rig</h3><p style="margin-top:8px">There's room for investment as we expand — and for landowners and farmers to host capacity on renewable sites. We're scoping both carefully once our own rigs are proven.</p><button class="btn" style="margin-top:16px">Register interest</button></div>
+          <div class="cardw"><span class="tag">Get involved</span><h3 style="margin-top:12px">Room to invest as we expand</h3><p style="margin-top:8px">As the proven model scales, there's room for investment in additional renewable capacity. We're scoping this carefully — building on rigs we already operate, not promises.</p><button class="btn" style="margin-top:16px">Register interest</button></div>
         </div>
         <p class="note">For information only. Nothing here is financial advice or an offer of securities, and no returns are guaranteed.</p>
       </div>
